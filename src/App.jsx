@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Routes, Route, useMatch } from 'react-router-dom'
-import './App.css'
+import './Styles/App.css'
 import Header from './Components/Header.jsx'
 import Home from './Components/Home.jsx'
 import VehicleServices from './Components/VehicleServices'
+import ManageVehicles from './Components/ManageVehicles'
 
 function App() {
   const [vehicles, setVehicles] = useState([])
@@ -29,6 +30,7 @@ function App() {
     <>
       <Header />
       <Routes>
+        <Route path="/manage-vehicles" element={<ManageVehicles/>} />
         <Route path="/vehicle/:id" element={<VehicleServices vehicle={vehicle} /> } />
         <Route path="/" element={<Home vehicles={vehicles}/>} />
       </Routes>

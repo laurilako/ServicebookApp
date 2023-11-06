@@ -1,0 +1,19 @@
+.ServicesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.ServicesContainer h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #000000;
+}
+
+.ServicesContainer .ServicesTable {
+    color: #000000;
+}
+
