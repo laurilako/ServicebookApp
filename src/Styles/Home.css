@@ -5,3 +5,19 @@
     color: #000000;
     font-size: 2rem;
 }
+
+.Home .AddButton {
+    background-color: #325f32;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: lighter;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #3c523c;
+    }
+}

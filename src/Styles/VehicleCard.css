@@ -8,6 +8,15 @@
     box-shadow: #000000 0px 0px 2px;
 }
 
+.Card .CardHeader .ButtonGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0.5rem 0rem 0rem 0rem;
+}
+
 .Card .ServiceButton {
     background-color: #151615;
     color: #ffffff;

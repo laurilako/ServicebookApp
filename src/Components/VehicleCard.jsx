@@ -1,17 +1,28 @@
 import React from "react";
+import { redirect  } from "react-router-dom";
 import "../Styles/VehicleCard.css";
 import { Link as ReactRouterLink } from 'react-router-dom'
-import { Link as ChakraLink } from '@chakra-ui/react'
+import { ButtonGroup, Link as ChakraLink } from '@chakra-ui/react'
 
-import { Card, Stack, CardBody, CardFooter, CardHeader, Text, Button, Image } from "@chakra-ui/react";
+import { Card, Stack, CardBody, CardFooter, CardHeader, Text, Button, Image, IconButton } from "@chakra-ui/react";
+import { FiDelete, FiEdit } from "react-icons/fi";
 
-const VehicleCard = ({ vehicle }) => {
-
+const VehicleCard = ({ handleEditClick, handleRemoveClick, vehicle }) => {
     return (
         <Card className="Card">
-            <CardHeader>
-                <Text>{vehicle.brand}</Text>
-            </CardHeader>
+            <div className="CardHeader">
+                <ButtonGroup className="ButtonGroup">
+                    <IconButton className="EditButton" aria-label="Edit" 
+                        icon={<FiEdit />} variant='ghost'
+                        onClick={() => handleEditClick(vehicle.id)}>Edit</IconButton>
+                    <IconButton className="RemoveButton" aria-label="Remove"
+                        icon={<FiDelete />} variant='ghost'
+                        onClick={() => handleRemoveClick(vehicle.id)}>Remove</IconButton>
+                </ButtonGroup>
+                <CardHeader>
+                    <Text>{vehicle.brand}</Text>
+                </CardHeader>
+            </div>
             <CardBody>
                 <Stack>
                     <Text>{vehicle.modelName}</Text>

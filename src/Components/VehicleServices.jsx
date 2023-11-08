@@ -1,19 +1,14 @@
 import React, { useState } from "react";
 import "../Styles/VehicleServices.css";
-
 import {
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
     IconButton,
-    Icon,
-    Button,
     useDisclosure,
     Modal,
     ModalOverlay,
@@ -21,7 +16,6 @@ import {
     ModalFooter,
     ModalBody,
   } from '@chakra-ui/react'
-
 import { FiInfo } from 'react-icons/fi'
 import { GrClose } from "react-icons/gr";  
 
@@ -42,7 +36,7 @@ const VehicleServices = ({ vehicle }) => {
                 <ModalOverlay />
                 <ModalContent bg={'white'} padding={'5'}>
                     <ModalFooter mb='-5' mt='-5' mr='-6' justifyContent={'right'}>
-                        <IconButton icon={<GrClose />} bgColor={'#dadaff'} size={'sm'} onClick={onClose}>
+                        <IconButton icon={<GrClose />} bgColor={''} size={'sm'} onClick={onClose}>
                         </IconButton>
                     </ModalFooter>
                     <ModalBody>
