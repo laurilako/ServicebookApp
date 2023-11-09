@@ -1,10 +1,9 @@
 import React from "react";
-import { redirect  } from "react-router-dom";
 import "../Styles/VehicleCard.css";
 import { Link as ReactRouterLink } from 'react-router-dom'
 import { ButtonGroup, Link as ChakraLink } from '@chakra-ui/react'
 
-import { Card, Stack, CardBody, CardFooter, CardHeader, Text, Button, Image, IconButton } from "@chakra-ui/react";
+import { Card, Stack, CardBody, CardFooter, CardHeader, Text, Button, IconButton } from "@chakra-ui/react";
 import { FiDelete, FiEdit } from "react-icons/fi";
 
 const VehicleCard = ({ handleEditClick, handleRemoveClick, vehicle }) => {
@@ -31,7 +30,7 @@ const VehicleCard = ({ handleEditClick, handleRemoveClick, vehicle }) => {
                 </Stack>
             </CardBody>
             <CardFooter>
-            <ChakraLink as={ReactRouterLink} to={`/vehicle/${vehicle.id}`}>
+            <ChakraLink as={ReactRouterLink} to={`/vehicle/${vehicle.licensePlate}`}>
                 <Button className="ServiceButton">SERVICES</Button>
             </ChakraLink>
             </CardFooter>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../Styles/VehicleServices.css";
 import {
     Table,
@@ -18,8 +18,20 @@ import {
   } from '@chakra-ui/react'
 import { FiInfo } from 'react-icons/fi'
 import { GrClose } from "react-icons/gr";  
+import axios from "axios";
 
 const VehicleServices = ({ vehicle }) => {
+
+    const [newVehicle, setNewVehicle] = useState([]);
+
+    useEffect(() => {
+        axios.get(`https://localhost:7189/api/Vehicle/licensePlate/${vehicle.licensePlate}`
+        ).then((res) => {
+            setNewVehicle(res.data.value)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }, [])
 
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -29,7 +41,13 @@ const VehicleServices = ({ vehicle }) => {
         setService(service);
         onOpen();
     }
-    
+
+    if(!newVehicle) {
+        return (
+            <Spinner />
+        )
+    }
+
     return (
         <>
             <Modal isOpen={isOpen} onClose={onClose}>
@@ -50,9 +68,9 @@ const VehicleServices = ({ vehicle }) => {
             </Modal>
 
             <div className="ServicesContainer">
-                <h1>Service history for {vehicle.licensePlate}</h1>
+                <h1>Service history for {newVehicle.licensePlate}</h1>
                 <TableContainer className="ServicesTable">
-                    <Table variant={"striped"} colorScheme={"teal"}>
+                    <Table variant={"striped"} colorScheme={"blackAlpha"}>
                         <Thead>
                             <Tr>
                                 <Th></Th>
@@ -60,11 +78,12 @@ const VehicleServices = ({ vehicle }) => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {vehicle.services.map((service) => (
-                                <Tr key={service.id}>
+                            {newVehicle.services && newVehicle.services.map((service) => (
+                                <Tr>
                                     <Td>{service.name}</Td>
-                                    <Td key={service.id}>
-                                        <IconButton aria-label="info" icon={<FiInfo />} variant='ghost'
+                                    <Td>
+                                        <IconButton
+                                            icon={<FiInfo />}
                                             onClick={() => handleServiceClick(service)}
                                         />
                                     </Td>
