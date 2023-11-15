@@ -54,12 +54,58 @@ const Home = ({ vehicles }) => {
         onClose: onAlertClose,
     } = useDisclosure();
 
+    const {
+        isOpen: isEditOpen,
+        onOpen: onEditOpen,
+        onClose: onEditClose,
+    } = useDisclosure();
+
     const cancelRef = React.useRef()
 
     const handleOnClick = () => {
         onOpen();
     }
 
+
+    const handleEditSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const editedVehicle = {
+                brand,
+                type,
+                modelName,
+                licensePlate,
+                year: Number(year),
+                color
+            }
+        const { data } = await axios.put(`https://localhost:7189/api/Vehicle/${licensePlate}`, editedVehicle);
+        toast({
+            title: 'Vehicle edited',
+            description: 'Vehicle was edited successfully',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+        })
+        // edit vehicle in vehicles array
+        const index = vehiclesArray.findIndex((v) => v.licensePlate === licensePlate);
+        vehiclesArray[index] = editedVehicle;
+        setVehiclesArray(vehiclesArray);
+        onEditClose();
+        }
+        catch (err) {
+            console.log(err);
+            toast({
+                title: 'An error occurred',
+                description: err.response.data,
+                status: 'error',
+                duration: 5000,
+                isClosable: true,
+            })
+        }
+    }
+
+    // handle submit for add vehicle
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -93,9 +139,18 @@ const Home = ({ vehicles }) => {
         }
     }
 
-    const handleEditClick = (licensePlate) => {
-        console.log('edit clicked for id ' + licensePlate);
-
+    // when edit button is clicked, we need to open the edit modal
+    const handleEditClick = (vehicle) => {
+        console.log('edit clicked for id ' + vehicle.licensePlate)
+        // set the values of the form to the values of the vehicle
+        setBrand(vehicle.brand);
+        setType(vehicle.type);
+        setModelName(vehicle.modelName);
+        setLicensePlate(vehicle.licensePlate);
+        setYear(vehicle.year);
+        setColor(vehicle.color);
+        // open the modal
+        onEditOpen();
     }
 
     const handleRemoveClick = (licensePlate) => {
@@ -185,6 +240,38 @@ const Home = ({ vehicles }) => {
                 </ModalContent>
             </Modal>            
 
+            <Modal isOpen={isEditOpen} onClose={onEditClose}>
+                <ModalOverlay />
+                <ModalContent bg={'white'} padding={'5'}>
+                    <ModalFooter mb='-5' mt='-5' mr='-6' justifyContent={'right'}>
+                        <IconButton icon={<GrClose />} bgColor={''} size={'sm'} onClick={onEditClose}>
+                        </IconButton>
+                    </ModalFooter>
+                    <ModalBody>
+                        <form onSubmit={handleEditSubmit}>
+                            <FormControl isRequired>
+                                <Stack>
+                                    <h1>Edit vehicle</h1>
+                                    <FormLabel>Brand</FormLabel>
+                                    <Input type="text" placeholder="Brand" value={brand} onChange={e => setBrand(e.currentTarget.value)}/>
+                                    <FormLabel>Vehicle type</FormLabel>
+                                    <Input type="text" placeholder="Car, Motorcycle..." value={type} onChange={e => setType(e.currentTarget.value)}/>
+                                    <FormLabel>Vehicle model</FormLabel>
+                                    <Input type="text" placeholder="Model" value={modelName} onChange={e => setModelName(e.currentTarget.value)}/>
+                                    <FormLabel>Vehicle year</FormLabel>
+                                    <Input type="number" placeholder="Year" value={year} onChange={e => setYear(e.currentTarget.value)}/>
+                                    <FormLabel>Vehicle color</FormLabel>
+                                    <Input type="text" placeholder="Color" value={color} onChange={e => setColor(e.currentTarget.value)}/>
+                                </Stack>
+                            </FormControl>
+                            <Button type="submit" colorScheme="teal" size="md" mt="4">
+                                Edit
+                            </Button>
+                        </form>
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+
             <div className="Home">
                 <h1>VEHICLES</h1>
                 <Button className="AddButton" onClick={() => handleOnClick()}>
@@ -193,7 +280,7 @@ const Home = ({ vehicles }) => {
                 <SimpleGrid columns={3} spacing={10} padding={'4rem'}>
                     {vehiclesArray.map((v) => (
                         <Box key={v.licensePlate}>
-                            <VehicleCard vehicle={v} handleEditClick={() => handleEditClick(v.licensePlate)} handleRemoveClick={() => handleRemoveClick(v.licensePlate)} />
+                            <VehicleCard vehicle={v} handleEditClick={() => handleEditClick(v)} handleRemoveClick={() => handleRemoveClick(v.licensePlate)} />
                         </Box>
                     ))}
                 </SimpleGrid>

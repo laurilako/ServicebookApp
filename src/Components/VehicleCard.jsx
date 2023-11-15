@@ -13,7 +13,7 @@ const VehicleCard = ({ handleEditClick, handleRemoveClick, vehicle }) => {
                 <ButtonGroup className="ButtonGroup">
                     <IconButton className="EditButton" aria-label="Edit" 
                         icon={<FiEdit />} variant='ghost'
-                        onClick={() => handleEditClick(vehicle.id)}>Edit</IconButton>
+                        onClick={() => handleEditClick(vehicle)}>Edit</IconButton>
                     <IconButton className="RemoveButton" aria-label="Remove"
                         icon={<FiDelete />} variant='ghost'
                         onClick={() => handleRemoveClick(vehicle.id)}>Remove</IconButton>
